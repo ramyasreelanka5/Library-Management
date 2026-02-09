@@ -98,29 +98,6 @@ Open: http://127.0.0.1:8000/
 - `audit_logs` - System activity logs
 - `book_reviews` - Student reviews
 
-## Project Structure
-
-```
-library_system_pro/
-├── library/                 # Main application
-│   ├── models.py           # Database models
-│   ├── views.py            # View functions
-│   ├── urls.py             # URL routing
-│   ├── admin.py            # Admin configuration
-│   └── utils.py            # Utility functions
-├── templates/              # HTML templates
-│   ├── base.html          # Base template with CSS
-│   ├── dashboard_*.html   # Role-based dashboards
-│   ├── books/             # Book templates
-│   ├── issues/            # Issue management
-│   ├── fines/             # Fine management
-│   └── student/           # Student portal
-├── static/                 # Static files
-├── media/                  # Uploaded files
-├── create_database.py      # DB setup script
-└── create_superuser.py     # User creation script
-```
-
 ## Usage
 
 ### For Librarians
@@ -158,10 +135,4 @@ library_system_pro/
 - API endpoints
 - Mobile app
 
-## License
 
-Educational/Portfolio Project
-
-## Author
-
-Created as an enhanced version of College Library Management System for professional showcase.
