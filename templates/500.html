@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 4rem auto; text-align: center;">
+    <div style="background: white; border-radius: 24px; padding: 4rem; box-shadow: 0 20px 60px rgba(15, 23, 42, 0.15);">
+        <div style="font-size: 6rem; margin-bottom: 1rem; color: var(--danger);">500</div>
+        <h1 style="font-size: 2rem; color: var(--dark); margin-bottom: 1rem;">Server Error</h1>
+        <p style="color: var(--text-light); font-size: 1.125rem; margin-bottom: 2rem;">
+            Oops! Something went wrong on our end. We're working to fix it.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <a href="{% url 'dashboard' %}" class="btn btn-primary">Go to Dashboard</a>
+            <a href="javascript:history.back()" class="btn btn-warning">Go Back</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

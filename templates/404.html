@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 4rem auto; text-align: center;">
+    <div style="background: white; border-radius: 24px; padding: 4rem; box-shadow: 0 20px 60px rgba(15, 23, 42, 0.15);">
+        <div style="font-size: 6rem; margin-bottom: 1rem;">404</div>
+        <h1 style="font-size: 2rem; color: var(--dark); margin-bottom: 1rem;">Page Not Found</h1>
+        <p style="color: var(--text-light); font-size: 1.125rem; margin-bottom: 2rem;">
+            Sorry, the page you're looking for doesn't exist or has been moved.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <a href="{% url 'dashboard' %}" class="btn btn-primary">Go to Dashboard</a>
+            <a href="{% url 'book_list' %}" class="btn btn-success">Browse Books</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
