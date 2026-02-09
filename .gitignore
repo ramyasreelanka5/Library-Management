@@ -99,9 +99,9 @@ coverage.xml
 # */migrations/*.py
 # !*/migrations/__init__.py
 
-# Static files (if using collectstatic)
-/static/
+# Collected static files only (allow our custom static/ folder)
 /staticfiles/
+/static_root/
 
 # Media files
 /media/
