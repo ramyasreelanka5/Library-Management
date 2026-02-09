@@ -1,0 +1,16 @@
+{% extends 'base.html' %} {% block content %}<h1>Student: {{ student.first_name }} {{ student.last_name }}</h1>
+<div class="card">
+    <h3>Recent Issues</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>{% for i in issues %}<tr>
+                <td>{{ i.book.title }}</td>
+                <td>{{ i.issue_date }}</td>
+            </tr>{% endfor %}</tbody>
+    </table>
+</div>{% endblock %}

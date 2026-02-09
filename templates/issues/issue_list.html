@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1 style="margin: 0;">📋 Issue Management</h1>
+    <div style="display: flex; gap: 0.75rem;">
+        <a href="{% url 'issue_create' %}" class="btn btn-primary">➕ Issue Book</a>
+        <a href="{% url 'issue_list' %}?status=overdue" class="btn btn-danger">⚠️ Overdue</a>
+    </div>
+</div>
+
+<!-- Filter Tabs -->
+<div class="card" style="margin-bottom: 1.5rem;">
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <a href="{% url 'issue_list' %}"
+            class="btn {% if not request.GET.status %}btn-primary{% else %}btn-warning{% endif %} btn-sm">
+            All Issues
+        </a>
+        <a href="{% url 'issue_list' %}?status=active"
+            class="btn {% if request.GET.status == 'active' %}btn-primary{% else %}btn-warning{% endif %} btn-sm">
+            Active
+        </a>
+        <a href="{% url 'issue_list' %}?status=returned"
+            class="btn {% if request.GET.status == 'returned' %}btn-success{% else %}btn-warning{% endif %} btn-sm">
+            Returned
+        </a>
+        <a href="{% url 'issue_list' %}?status=overdue"
+            class="btn {% if request.GET.status == 'overdue' %}btn-danger{% else %}btn-warning{% endif %} btn-sm">
+            Overdue
+        </a>
+    </div>
+</div>
+
+<!-- Issues Table -->
+<div class="card">
+    <div class="card-header">📚 Book Issues</div>
+
+    {% if issues %}
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Student</th>
+                    <th>Issue Date</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for issue in issues %}
+                <tr>
+                    <td style="font-weight: 600;">{{ issue.book.title }}</td>
+                    <td>{{ issue.user.username }}</td>
+                    <td>{{ issue.issue_date }}</td>
+                    <td>{{ issue.due_date }}</td>
+                    <td>
+                        {% if issue.return_date %}
+                        <span class="badge badge-success">Returned</span>
+                        {% elif issue.is_overdue %}
+                        <span class="badge badge-danger">Overdue {{ issue.days_overdue }}d</span>
+                        {% else %}
+                        <span class="badge badge-primary">Active</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not issue.return_date %}
+                        <a href="{% url 'issue_return' issue.id %}" class="btn btn-success btn-sm">Return</a>
+                        {% else %}
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">{{ issue.return_date }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 4rem;">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">📚</div>
+        <h3 style="color: var(--text); margin-bottom: 0.5rem;">No Issues Found</h3>
+        <p style="color: var(--text-muted);">Start issuing books to see them here</p>
+        <a href="{% url 'issue_create' %}" class="btn btn-primary" style="margin-top: 1.5rem;">Issue Book</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

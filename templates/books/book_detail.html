@@ -1,0 +1,8 @@
+{% extends 'base.html' %} {% block content %}
+<div class="card">
+    <div class="card-header">Book Details</div>
+    <p>{{ book.title }}</p>
+    <p>by {{ book.author.name|default:"Unknown" }}</p>
+    <p>ISBN: {{ book.isbn }}</p>
+</div>
+{% endblock %}

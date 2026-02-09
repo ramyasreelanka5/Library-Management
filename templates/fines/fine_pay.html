@@ -1,0 +1,10 @@
+{% extends 'base.html' %} {% block content %}<h1>Pay Fine</h1>
+<div class="card">
+    <p>Fine: Rs {{ fine.amount }}</p>
+    <form method="post">{% csrf_token %}<div class="form-group"><label>Payment Method</label><select
+                name="payment_method" class="form-control">
+                <option>CASH</option>
+                <option>CARD</option>
+                <option>UPI</option>
+            </select></div><button type="submit" class="btn btn-primary">Pay Now</button></form>
+</div>{% endblock %}

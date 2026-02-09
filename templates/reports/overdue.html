@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% block content %}<h1>Overdue Books</h1>
+<div class="card">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>Student</th>
+                <th>Days</th>
+            </tr>
+        </thead>
+        <tbody>{% for i in overdue_issues %}<tr>
+                <td>{{ i.book.title }}</td>
+                <td>{{ i.user.username }}</td>
+                <td>{{ i.days_overdue }}</td>
+            </tr>{% endfor %}</tbody>
+    </table>
+</div>{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 2rem auto;">
+    <div style="background: white; border-radius: 24px; padding: 3rem; box-shadow: 0 20px 60px rgba(15, 23, 42, 0.15);">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div style="font-size: 3.5rem; margin-bottom: 1rem;">🎓</div>
+            <h2 style="font-size: 1.875rem; font-weight: 700; color: var(--dark); margin-bottom: 0.5rem;">Student
+                Registration</h2>
+            <p style="color: var(--text-light);">Create your account to access the library</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <input type="text" name="first_name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" name="last_name" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Student ID</label>
+                <input type="text" name="student_id" class="form-control" placeholder="e.g., STU2024" required>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label">Department</label>
+                    <select name="department" class="form-control" required>
+                        <option value="">Select Department</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Mechanical">Mechanical</option>
+                        <option value="Civil">Civil</option>
+                        <option value="Electrical">Electrical</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Year</label>
+                    <select name="year" class="form-control" required>
+                        <option value="">Year</option>
+                        <option value="1">1st</option>
+                        <option value="2">2nd</option>
+                        <option value="3">3rd</option>
+                        <option value="4">4th</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" name="phone" class="form-control" placeholder="10-digit number">
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; margin-top: 0.5rem;">
+                Register
+            </button>
+        </form>
+
+        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); text-align: center;">
+            <p style="color: var(--text-light); font-size: 0.9rem;">
+                Already have an account?
+                <a href="{% url 'login' %}" style="color: var(--primary); font-weight: 600; text-decoration: none;">Sign
+                    in here</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

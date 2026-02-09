@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block content %}<h1>Publishers</h1>
+<div class="card">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Books</th>
+            </tr>
+        </thead>
+        <tbody>{% for p in publishers %}<tr>
+                <td>{{ p.name }}</td>
+                <td>{{ p.book_count }}</td>
+            </tr>{% endfor %}</tbody>
+    </table>
+</div>{% endblock %}

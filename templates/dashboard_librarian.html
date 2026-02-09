@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>📊 Admin Dashboard</h1>
+
+<!-- Statistics Grid -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-number">{{ total_books }}</div>
+        <div class="stat-label">Total Books</div>
+    </div>
+    <div class="stat-card success">
+        <div class="stat-number" style="color: var(--secondary);">{{ available_books }}</div>
+        <div class="stat-label">Available Books</div>
+    </div>
+    <div class="stat-card warning">
+        <div class="stat-number" style="color: var(--warning);">{{ active_issues }}</div>
+        <div class="stat-label">Active Issues</div>
+    </div>
+    <div class="stat-card danger">
+        <div class="stat-number" style="color: var(--danger);">{{ overdue_issues }}</div>
+        <div class="stat-label">Overdue Books</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number" style="color: var(--info);">{{ total_students }}</div>
+        <div class="stat-label">Total Students</div>
+    </div>
+    <div class="stat-card warning">
+        <div class="stat-number" style="color: var(--warning);">₹{{ pending_fines }}</div>
+        <div class="stat-label">Pending Fines</div>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
+    <!-- Recent Issues -->
+    <div class="card">
+        <div class="card-header">
+            📚 Recent Issues
+            <a href="{% url 'issue_create' %}" class="btn btn-primary btn-sm float-right">Issue Book</a>
+        </div>
+        {% if recent_issues %}
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th>Student</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for issue in recent_issues %}
+                    <tr>
+                        <td style="font-weight: 600;">{{ issue.book.title }}</td>
+                        <td>{{ issue.user.username }}</td>
+                        <td>
+                            {% if issue.is_overdue %}
+                            <span class="badge badge-danger">{{ issue.due_date }}</span>
+                            {% else %}
+                            <span class="badge badge-success">{{ issue.due_date }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p style="text-align: center; color: var(--text-muted); padding: 2rem;">No recent issues</p>
+        {% endif %}
+    </div>
+
+    <!-- Overdue Books -->
+    <div class="card">
+        <div class="card-header" style="border-bottom-color: var(--danger);">
+            ⚠️ Overdue Books
+            <a href="{% url 'issue_list' %}?status=overdue" class="btn btn-danger btn-sm float-right">View All</a>
+        </div>
+        {% if overdue_books %}
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th>Student</th>
+                        <th>Days Overdue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for issue in overdue_books %}
+                    <tr>
+                        <td style="font-weight: 600;">{{ issue.book.title }}</td>
+                        <td>{{ issue.user.username }}</td>
+                        <td>
+                            <span class="badge badge-danger">{{ issue.days_overdue }} days</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p style="text-align: center; color: var(--text-muted); padding: 2rem;">✅ No overdue books</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="card" style="margin-top: 2rem;">
+    <div class="card-header">⚡ Quick Actions</div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+        <a href="{% url 'book_add' %}" class="btn btn-primary">Add New Book</a>
+        <a href="{% url 'issue_create' %}" class="btn btn-success">Issue Book</a>
+        <a href="{% url 'issue_list' %}" class="btn btn-warning">Manage Issues</a>
+        <a href="{% url 'fine_list' %}" class="btn btn-danger">Manage Fines</a>
+        <a href="{% url 'student_list' %}" class="btn btn-primary">View Students</a>
+        <a href="{% url 'book_list' %}" class="btn btn-success">Browse Books</a>
+    </div>
+</div>
+{% endblock %}

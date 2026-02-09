@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1 style="margin: 0;">📖 Book Catalog</h1>
+    {% if user.profile and user.profile.role in 'ADMIN,LIBRARIAN' or user.is_superuser %}
+    <a href="{% url 'book_add' %}" class="btn btn-primary">➕ Add New Book</a>
+    {% endif %}
+</div>
+
+<!-- Search and Filter -->
+<div class="card" style="margin-bottom: 2rem;">
+    <form method="get" style="display: grid; grid-template-columns: 2fr 1fr auto; gap: 1rem; align-items: end;">
+        <div class="form-group" style="margin: 0;">
+            <label class="form-label">Search Books</label>
+            <input type="text" name="search" class="form-control" placeholder="Search by title, ISBN, or author..."
+                value="{{ search }}">
+        </div>
+
+        <div class="form-group" style="margin: 0;">
+            <label class="form-label">Category</label>
+            <select name="category" class="form-control">
+                <option value="">All Categories</option>
+                {% for cat in categories %}
+                <option value="{{ cat.id }}">{{ cat.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem;">
+            <button type="submit" class="btn btn-primary">🔍 Search</button>
+            <a href="{% url 'book_list' %}" class="btn btn-warning">Clear</a>
+        </div>
+    </form>
+</div>
+
+<!-- Books Grid -->
+{% if books %}
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+    {% for book in books %}
+    <div class="card" style="height: 100%; display: flex; flex-direction: column;">
+        <div style="flex: 1;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                <h3 style="font-size: 1.125rem; font-weight: 700; color: var(--dark); margin: 0; flex: 1;">
+                    {{ book.title }}
+                </h3>
+                {% if book.available_quantity > 0 %}
+                <span class="badge badge-success">Available</span>
+                {% else %}
+                <span class="badge badge-danger">Unavailable</span>
+                {% endif %}
+            </div>
+
+            <div style="color: var(--text-light); font-size: 0.875rem; margin-bottom: 1rem;">
+                <p style="margin: 0.25rem 0;"><strong>Author:</strong> {{ book.author.name }}</p>
+                <p style="margin: 0.25rem 0;"><strong>Category:</strong> {{ book.category.name }}</p>
+                <p style="margin: 0.25rem 0;"><strong>ISBN:</strong> {{ book.isbn }}</p>
+                {% if book.publication_year %}
+                <p style="margin: 0.25rem 0;"><strong>Year:</strong> {{ book.publication_year }}</p>
+                {% endif %}
+            </div>
+
+            <div style="padding: 0.75rem; background: var(--bg); border-radius: 8px; margin-bottom: 1rem;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.875rem;">
+                    <span style="color: var(--text-light);">Total:</span>
+                    <strong style="color: var(--primary);">{{ book.total_quantity }}</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.875rem;">
+                    <span style="color: var(--text-light);">Available:</span>
+                    <strong style="color: var(--secondary);">{{ book.available_quantity }}</strong>
+                </div>
+            </div>
+        </div>
+
+        <a href="{% url 'book_detail' book.id %}" class="btn btn-primary" style="width: 100%;">View Details</a>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card">
+    <div style="text-align: center; padding: 4rem;">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">📚</div>
+        <h3 style="color: var(--text); margin-bottom: 0.5rem;">No Books Found</h3>
+        <p style="color: var(--text-muted);">Try adjusting your search or filter criteria</p>
+        <a href="{% url 'book_list' %}" class="btn btn-primary" style="margin-top: 1.5rem;">View All Books</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

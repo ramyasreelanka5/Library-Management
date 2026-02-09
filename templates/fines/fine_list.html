@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1 style="margin: 0;">💰 Fine Management</h1>
+</div>
+
+<!-- Filter Tabs -->
+<div class="card" style="margin-bottom: 1.5rem;">
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <a href="{% url 'fine_list' %}"
+            class="btn {% if not request.GET.status %}btn-primary{% else %}btn-warning{% endif %} btn-sm">
+            All Fines
+        </a>
+        <a href="{% url 'fine_list' %}?status=pending"
+            class="btn {% if request.GET.status == 'pending' %}btn-danger{% else %}btn-warning{% endif %} btn-sm">
+            Pending
+        </a>
+        <a href="{% url 'fine_list' %}?status=paid"
+            class="btn {% if request.GET.status == 'paid' %}btn-success{% else %}btn-warning{% endif %} btn-sm">
+            Paid
+        </a>
+    </div>
+</div>
+
+<!-- Fines Table -->
+<div class="card">
+    <div class="card-header">💳 Fine Records</div>
+
+    {% if fines %}
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Student</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fine in fines %}
+                <tr>
+                    <td style="font-weight: 600;">{{ fine.issue.book.title }}</td>
+                    <td>{{ fine.issue.user.username }}</td>
+                    <td><span class="badge badge-warning">₹{{ fine.amount }}</span></td>
+                    <td>
+                        {% if fine.status == 'PENDING' %}
+                        <span class="badge badge-danger">Pending</span>
+                        {% elif fine.status == 'PAID' %}
+                        <span class="badge badge-success">Paid</span>
+                        {% elif fine.status == 'WAIVED' %}
+                        <span class="badge badge-primary">Waived</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ fine.created_at|date:"M d, Y" }}</td>
+                    <td>
+                        {% if fine.status == 'PENDING' %}
+                        <a href="{% url 'fine_pay' fine.id %}" class="btn btn-success btn-sm">💳 Pay</a>
+                        {% else %}
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">
+                            {% if fine.payment_date %}{{ fine.payment_date|date:"M d, Y" }}{% endif %}
+                        </span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 4rem;">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+        <h3 style="color: var(--text); margin-bottom: 0.5rem;">No Fines Found</h3>
+        <p style="color: var(--text-muted);">Great! No fines to display</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

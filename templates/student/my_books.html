@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block content %}<h1>My Books</h1>
+<div class="card">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>Issue Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>{% for issue in issues %}<tr>
+                <td>{{ issue.book.title }}</td>
+                <td>{{ issue.issue_date }}</td>
+                <td>{{ issue.due_date }}</td>
+                <td>{% if issue.is_overdue %}<span class="badge badge-danger">Overdue</span>{% else %}<span
+                        class="badge badge-success">Active</span>{% endif %}</td>
+            </tr>{% endfor %}</tbody>
+    </table>
+</div>{% endblock %}

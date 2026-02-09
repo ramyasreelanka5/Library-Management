@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block content %}<h1>Authors</h1>
+<div class="card">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Books</th>
+            </tr>
+        </thead>
+        <tbody>{% for a in authors %}<tr>
+                <td>{{ a.name }}</td>
+                <td>{{ a.book_count }}</td>
+            </tr>{% endfor %}</tbody>
+    </table>
+</div>{% endblock %}

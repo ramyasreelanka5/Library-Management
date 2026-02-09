@@ -1,0 +1,7 @@
+{% extends 'base.html' %} {% block content %}<h1>Reports</h1>
+<div class="card">
+    <ul>
+        <li><a href="{% url 'report_overdue' %}">Overdue Books</a></li>
+        <li><a href="{% url 'report_popular' %}">Popular Books</a></li>
+    </ul>
+</div>{% endblock %}

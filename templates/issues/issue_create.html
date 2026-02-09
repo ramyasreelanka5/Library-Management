@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">Issue Book</div>
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Book</label>
+            <select name="book_id" class="form-control" required>
+                {% for b in books %}
+                <option value="{{ b.id }}">{{ b.title }} ({{ b.available_quantity }} available)</option>
+                {% empty %}
+                <option value="">No books available</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Student</label>
+            <select name="user_id" class="form-control" required>
+                <option value="">-- Select Student --</option>
+                {% for s in students %}
+                <option value="{{ s.id }}">{{ s.username }} - {{ s.first_name }} {{ s.last_name }} {% if s.profile %}({{
+                    s.profile.student_id }}){% endif %}</option>
+                {% empty %}
+                <option value="">No students found</option>
+                {% endfor %}
+            </select>
+            {% if not students %}
+            <small style="color: var(--danger);">⚠️ No students registered. Please create student accounts
+                first.</small>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label>Days</label>
+            <input name="days" type="number" class="form-control" value="14" min="1" max="30">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Issue Book</button>
+        <a href="{% url 'issue_list' %}" class="btn btn-warning">Cancel</a>
+    </form>
+</div>
+{% endblock %}
